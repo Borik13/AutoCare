@@ -1,0 +1,17 @@
+{
+  "name": "AutoCare — автомобільний журнал",
+  "short_name": "AutoCare",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0d1420",
+  "theme_color": "#111827",
+  "lang": "uk",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

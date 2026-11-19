@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AutoCare">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>AutoCare</title>
+  <style>
+    :root{--bg:#f3f5f8;--panel:#fff;--text:#172033;--muted:#687386;--line:#e3e8ef;--accent:#2878e5;--soft:#eaf2ff;--danger:#c43d4d;--shadow:0 8px 24px rgba(20,35,60,.07)}
+    [data-theme="dark"]{--bg:#0d1420;--panel:#172232;--text:#edf3fc;--muted:#9eacc0;--line:#2a394d;--accent:#75aaff;--soft:#20334d;--danger:#ff7a88;--shadow:0 8px 24px rgba(0,0,0,.18)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+    .wrap{max-width:760px;margin:auto;padding:18px 16px 96px}.top{display:flex;align-items:center;justify-content:space-between;margin:4px 0 18px}
+    .brand{font-size:25px;font-weight:800;letter-spacing:-.7px}.brand span{color:var(--accent)} .sub{font-size:12px;color:var(--muted);margin-top:2px}
+    button,.btn{border:0;border-radius:13px;padding:12px 14px;background:var(--accent);color:white;font-weight:650;font-size:14px;cursor:pointer}
+    .iconbtn{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:10px 12px}
+    .hero{background:linear-gradient(135deg,#101827,#263b56);color:#fff;border-radius:22px;padding:20px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+    .hero:after{content:"";position:absolute;width:190px;height:100px;border:18px solid rgba(255,255,255,.08);border-radius:50%;right:-42px;bottom:-32px;transform:rotate(-12deg)}
+    .car-label{font-size:12px;color:#c7d4e6;text-transform:uppercase;letter-spacing:1px}.car-name{font-size:23px;font-weight:800;margin:7px 0 3px}.car-meta{font-size:13px;color:#c7d4e6}
+    .hero-bottom{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}.metric{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:10px 12px;min-width:120px}.metric small{display:block;color:#c7d4e6;font-size:11px}.metric strong{display:block;font-size:17px;margin-top:3px}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin:24px 2px 12px}.section-head h2{font-size:17px;margin:0}.muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.tile,.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:15px;box-shadow:var(--shadow)}
+    .tile{cursor:pointer;text-align:left;color:var(--text);min-height:92px}.tile .ico{font-size:21px;margin-bottom:9px}.tile b{display:block;font-size:13px}.tile small{color:var(--muted);font-size:11px}
+    .tabs{position:fixed;bottom:0;left:0;right:0;background:var(--panel);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:9px 6px calc(9px + env(safe-area-inset-bottom));z-index:4}
+    .tab{background:transparent;color:var(--muted);padding:7px 9px;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px}.tab.active{color:var(--accent)}.tab span:first-child{font-size:19px}
+    .page{display:none}.page.active{display:block}.row{display:flex;gap:9px;align-items:center;justify-content:space-between}.record{padding:13px 0;border-bottom:1px solid var(--line)}.record:last-child{border:0}.record b{font-size:14px}.record small{display:block;color:var(--muted);margin-top:4px}.price{font-weight:750;white-space:nowrap}
+    label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text);font:inherit;outline:none}textarea{min-height:76px;resize:vertical}
+    .form-actions{display:flex;gap:9px;margin-top:16px}.secondary{background:var(--soft);color:var(--accent)}.danger{background:transparent;color:var(--danger);border:1px solid var(--line)}
+    .empty{text-align:center;padding:24px 12px;color:var(--muted);font-size:13px}.notice{background:var(--soft);color:var(--text);border-radius:13px;padding:12px;font-size:12px;line-height:1.5}
+    .hidden{display:none!important}.pill{font-size:10px;background:var(--soft);color:var(--accent);border-radius:30px;padding:5px 8px}
+    @media(min-width:600px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.wrap{padding-top:28px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div><div class="brand">Auto<span>Care</span></div><div class="sub">Твій автомобільний журнал</div></div>
+    <button class="iconbtn" id="themeBtn" aria-label="Змінити тему">☾</button>
+  </header>
+
+  <main>
+    <section class="page active" id="home">
+      <div class="hero">
+        <div class="car-label">Мій автомобіль</div>
+        <div class="car-name" id="heroName">Hyundai Sonata NF</div>
+        <div class="car-meta" id="heroMeta">2007 · 2.0 · Чорний</div>
+        <div class="hero-bottom">
+          <div class="metric"><small>Поточний пробіг</small><strong id="heroMileage">Не вказано</strong></div>
+          <div class="metric"><small>Витрати всього</small><strong id="heroTotal">0 ₴</strong></div>
+        </div>
+      </div>
+      <div class="section-head"><h2>Швидкі дії</h2></div>
+      <div class="grid">
+        <button class="tile" data-go="service"><div class="ico">🔧</div><b>Додати ремонт / ТО</b><small>Роботи та запчастини</small></button>
+        <button class="tile" data-go="fuel"><div class="ico">⛽</div><b>Заправка</b><small>Пальне та витрати</small></button>
+        <button class="tile" data-go="vin"><div class="ico">🔎</div><b>Запчастини за VIN</b><small>Підбір деталей</small></button>
+        <button class="tile" data-go="reminders"><div class="ico">🔔</div><b>Нагадування</b><small>Наступне обслуговування</small></button>
+      </div>
+      <div class="section-head"><h2>Останні записи</h2><span class="pill" id="recordCount">0 записів</span></div>
+      <div class="card" id="recentList"><div class="empty">Поки немає записів. Додай перше ТО або заправку.</div></div>
+    </section>
+
+    <section class="page" id="service">
+      <div class="section-head"><h2>ТО та ремонти</h2><button id="addServiceBtn">＋ Додати</button></div>
+      <div class="card" id="serviceList"><div class="empty">Історія ремонтів поки порожня.</div></div>
+      <div class="card hidden" id="serviceForm">
+        <h3>Новий запис</h3>
+        <form id="serviceFormEl">
+          <label>Що зроблено?</label><input name="title" required placeholder="Наприклад, заміна мастила">
+          <label>Категорія</label><select name="category"><option>Планове ТО</option><option>Двигун</option><option>Ходова</option><option>Гальма</option><option>Електрика</option><option>Охолодження</option><option>Інше</option></select>
+          <label>Дата</label><input name="date" type="date" required>
+          <label>Пробіг, км</label><input name="mileage" type="number" min="0" placeholder="Наприклад, 185000">
+          <label>Вартість, ₴</label><input name="cost" type="number" min="0" step="0.01" placeholder="0">
+          <label>СТО / майстер</label><input name="shop" placeholder="Назва сервісу">
+          <label>Нотатки</label><textarea name="notes" placeholder="Запчастини, роботи, гарантія..."></textarea>
+          <div class="form-actions"><button type="submit">Зберегти</button><button type="button" class="secondary" id="cancelService">Скасувати</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="page" id="fuel">
+      <div class="section-head"><h2>Пальне та витрати</h2><button id="addFuelBtn">＋ Заправка</button></div>
+      <div class="grid" style="margin-bottom:12px">
+        <div class="card"><small class="muted">Витрати на пальне</small><h2 id="fuelTotal">0 ₴</h2></div>
+        <div class="card"><small class="muted">Кількість заправок</small><h2 id="fuelCount">0</h2></div>
+      </div>
+      <div class="card" id="fuelList"><div class="empty">Заправок ще немає.</div></div>
+      <div class="card hidden" id="fuelForm">
+        <h3>Нова заправка</h3>
+        <form id="fuelFormEl">
+          <label>Дата</label><input name="date" type="date" required>
+          <label>Тип пального</label><select name="kind"><option>Бензин А-95</option><option>Бензин А-92</option><option>Дизель</option><option>Автогаз LPG</option><option>Інше</option></select>
+          <label>Літри</label><input name="liters" type="number" min="0" step="0.01" placeholder="0">
+          <label>Ціна за літр, ₴</label><input name="unit" type="number" min="0" step="0.01" placeholder="0">
+          <label>Сума, ₴</label><input name="cost" type="number" min="0" step="0.01" required placeholder="0">
+          <label>Пробіг, км</label><input name="mileage" type="number" min="0">
+          <div class="form-actions"><button type="submit">Зберегти</button><button type="button" class="secondary" id="cancelFuel">Скасувати</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="page" id="vin">
+      <div class="section-head"><h2>Пошук запчастин за VIN</h2></div>
+      <div class="card">
+        <div class="notice">Введи VIN із техпаспорта або кузова. У цій першій версії поле та розділ підготовлені; для реального підбору OEM-номерів потрібне підключення зовнішнього каталогу запчастин.</div>
+        <label>VIN-код (17 символів)</label><input id="vinInput" maxlength="17" placeholder="Наприклад, KMH..." autocapitalize="characters">
+        <div class="form-actions"><button id="saveVin">Зберегти VIN</button><button class="secondary" id="copyVin">Копіювати</button></div>
+        <p class="muted" id="vinStatus" style="font-size:12px"></p>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <h3>Що додамо в наступному оновленні</h3>
+        <p class="muted">Декодування комплектації, оригінальні OEM-коди, сумісні аналоги та пошук пропозицій українських магазинів.</p>
+      </div>
+    </section>
+
+    <section class="page" id="reminders">
+      <div class="section-head"><h2>Нагадування</h2><button id="addReminderBtn">＋ Додати</button></div>
+      <div class="card" id="reminderList"><div class="empty">Нагадувань поки немає.</div></div>
+      <div class="card hidden" id="reminderForm">
+        <h3>Нове нагадування</h3>
+        <form id="reminderFormEl">
+          <label>Що потрібно зробити?</label><input name="title" required placeholder="Наприклад, замінити мастило">
+          <label>Дата</label><input name="date" type="date">
+          <label>На якому пробігу, км</label><input name="mileage" type="number" min="0">
+          <div class="form-actions"><button type="submit">Зберегти</button><button type="button" class="secondary" id="cancelReminder">Скасувати</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="page" id="settings">
+      <div class="section-head"><h2>Автомобіль та дані</h2></div>
+      <div class="card">
+        <form id="carForm">
+          <label>Марка та модель</label><input name="name" value="Hyundai Sonata NF">
+          <label>Рік</label><input name="year" type="number" value="2007">
+          <label>Двигун</label><input name="engine" value="2.0">
+          <label>Колір</label><input name="color" value="Чорний">
+          <label>Поточний пробіг, км</label><input name="mileage" type="number" min="0" placeholder="Вкажи поточний пробіг">
+          <label>VIN-код</label><input name="vin" maxlength="17" placeholder="Необов'язково">
+          <button type="submit" style="margin-top:15px">Зберегти автомобіль</button>
+        </form>
+      </div>
+      <div class="section-head"><h2>Резервна копія</h2></div>
+      <div class="card">
+        <p class="muted" style="font-size:13px">Дані зберігаються в пам'яті цього браузера на пристрої. Регулярно експортуй резервну копію.</p>
+        <div class="form-actions"><button id="exportData">Експортувати дані</button><button class="secondary" id="importBtn">Імпортувати</button><input class="hidden" type="file" id="importFile" accept="application/json"></div>
+        <button class="danger" id="clearData" style="margin-top:12px">Видалити всі записи</button>
+      </div>
+      <p class="muted" style="font-size:11px;text-align:center;margin-top:18px">AutoCare 1.0 · Початкова версія</p>
+    </section>
+  </main>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-page="home"><span>⌂</span>Головна</button>
+  <button class="tab" data-page="service"><span>🔧</span>ТО</button>
+  <button class="tab" data-page="fuel"><span>⛽</span>Пальне</button>
+  <button class="tab" data-page="vin"><span>🔎</span>VIN</button>
+  <button class="tab" data-page="settings"><span>⚙</span>Ще</button>
+</nav>
+
+<script>
+const $ = s => document.querySelector(s);
+const today = () => new Date().toISOString().slice(0,10);
+const defaultData = {car:{name:"Hyundai Sonata NF",year:"2007",engine:"2.0",color:"Чорний",mileage:"",vin:""},services:[],fuel:[],reminders:[],theme:"dark"};
+let data = load();
+function load(){try{return {...defaultData,...JSON.parse(localStorage.getItem("autocare-data")||"{}")}}catch{return structuredClone(defaultData)}}
+function save(){localStorage.setItem("autocare-data",JSON.stringify(data));render()}
+function money(n){return (Number(n)||0).toLocaleString("uk-UA",{maximumFractionDigits:2})+" ₴"}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function total(){return [...data.services,...data.fuel].reduce((a,x)=>a+(Number(x.cost)||0),0)}
+function go(page){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===page));document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.page===page));}
+document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>go(b.dataset.page));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+$("#themeBtn").onclick=()=>{data.theme=data.theme==="dark"?"light":"dark";save()};
+function applyTheme(){document.documentElement.dataset.theme=data.theme;$("#themeBtn").textContent=data.theme==="dark"?"☀":"☾"}
+function listHTML(items,kind){if(!items.length)return '<div class="empty">Записів поки немає.</div>';return [...items].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).map(x=>`<div class="record"><div class="row"><div><b>${esc(x.title||x.kind)}</b><small>${esc(x.date||"")} ${x.mileage?("· "+esc(x.mileage)+" км"):""} ${x.shop?("· "+esc(x.shop)):""}</small>${x.notes?`<small>${esc(x.notes)}</small>`:""}</div><div style="text-align:right"><div class="price">${money(x.cost)}</div><button class="danger" style="padding:5px 8px;margin-top:6px;font-size:11px" onclick="removeItem('${kind}','${x.id}')">Видалити</button></div></div></div>`).join("")}
+function render(){
+ applyTheme();
+ $("#heroName").textContent=data.car.name||"Мій автомобіль";
+ $("#heroMeta").textContent=[data.car.year,data.car.engine,data.car.color].filter(Boolean).join(" · ");
+ $("#heroMileage").textContent=data.car.mileage?Number(data.car.mileage).toLocaleString("uk-UA")+" км":"Не вказано";
+ $("#heroTotal").textContent=money(total());
+ $("#serviceList").innerHTML=listHTML(data.services,"services");
+ $("#fuelList").innerHTML=listHTML(data.fuel.map(x=>({...x,title:x.kind+" · "+(x.liters||"")+" л"})),"fuel");
+ $("#recentList").innerHTML=listHTML([...data.services,...data.fuel.map(x=>({...x,title:x.kind+" · заправка"}))].slice(-5),"recent");
+ $("#recordCount").textContent=(data.services.length+data.fuel.length)+" записів";
+ $("#fuelTotal").textContent=money(data.fuel.reduce((a,x)=>a+Number(x.cost||0),0));
+ $("#fuelCount").textContent=data.fuel.length;
+ $("#reminderList").innerHTML=data.reminders.length?data.reminders.map(x=>`<div class="record row"><div><b>${esc(x.title)}</b><small>${x.date?esc(x.date):"Дата не вказана"} ${x.mileage?("· "+esc(x.mileage)+" км"):""}</small></div><button class="danger" onclick="removeItem('reminders','${x.id}')" style="padding:6px 9px">✕</button></div>`).join(""):'<div class="empty">Нагадувань поки немає.</div>';
+ $("#vinInput").value=data.car.vin||"";
+ $("#carForm").elements.name.value=data.car.name||"";
+ $("#carForm").elements.year.value=data.car.year||"";
+ $("#carForm").elements.engine.value=data.car.engine||"";
+ $("#carForm").elements.color.value=data.car.color||"";
+ $("#carForm").elements.mileage.value=data.car.mileage||"";
+ $("#carForm").elements.vin.value=data.car.vin||"";
+}
+window.removeItem=(kind,id)=>{if(kind==="recent"){data.services=data.services.filter(x=>x.id!==id);data.fuel=data.fuel.filter(x=>x.id!==id)}else data[kind]=data[kind].filter(x=>x.id!==id);save()};
+function showForm(id){$("#"+id).classList.remove("hidden")}
+function hideForm(id){$("#"+id).classList.add("hidden")}
+$("#addServiceBtn").onclick=()=>showForm("serviceForm");$("#cancelService").onclick=()=>hideForm("serviceForm");
+$("#addFuelBtn").onclick=()=>showForm("fuelForm");$("#cancelFuel").onclick=()=>hideForm("fuelForm");
+$("#addReminderBtn").onclick=()=>showForm("reminderForm");$("#cancelReminder").onclick=()=>hideForm("reminderForm");
+$("#serviceFormEl").onsubmit=e=>{e.preventDefault();let o=Object.fromEntries(new FormData(e.target));data.services.push({...o,id:crypto.randomUUID()});e.target.reset();hideForm("serviceForm");save()};
+$("#fuelFormEl").onsubmit=e=>{e.preventDefault();let o=Object.fromEntries(new FormData(e.target));data.fuel.push({...o,id:crypto.randomUUID()});e.target.reset();hideForm("fuelForm");save()};
+$("#reminderFormEl").onsubmit=e=>{e.preventDefault();let o=Object.fromEntries(new FormData(e.target));data.reminders.push({...o,id:crypto.randomUUID()});e.target.reset();hideForm("reminderForm");save()};
+$("#carForm").onsubmit=e=>{e.preventDefault();data.car=Object.fromEntries(new FormData(e.target));save();alert("Дані автомобіля збережено")};
+$("#saveVin").onclick=()=>{let v=$("#vinInput").value.trim().toUpperCase();if(v&&v.length!==17){$("#vinStatus").textContent="VIN зазвичай має містити 17 символів. Перевір введення.";return}data.car.vin=v;save();$("#vinStatus").textContent=v?"VIN збережено. Автоматичний каталог буде підключено в наступній версії.":"VIN очищено."};
+$("#copyVin").onclick=async()=>{let v=$("#vinInput").value;if(v){await navigator.clipboard.writeText(v);$("#vinStatus").textContent="VIN скопійовано."}};
+$("#exportData").onclick=()=>{let blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="autocare-backup.json";a.click();URL.revokeObjectURL(a.href)};
+$("#importBtn").onclick=()=>$("#importFile").click();
+$("#importFile").onchange=async e=>{try{let x=JSON.parse(await e.target.files[0].text());if(!x.car||!Array.isArray(x.services)||!Array.isArray(x.fuel))throw 0;data={...defaultData,...x};save();alert("Резервну копію відновлено")}catch{alert("Не вдалося прочитати файл резервної копії")}};
+$("#clearData").onclick=()=>{if(confirm("Видалити всі записи та налаштування? Спочатку експортуй резервну копію.")){data=structuredClone(defaultData);save()}};
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+render();
+</script>
+</body>
+</html>
